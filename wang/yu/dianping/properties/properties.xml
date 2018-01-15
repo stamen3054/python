@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<websites>
+    <selectors>
+        <shop-info>.txt .tit</shop-info>
+        <shop-detail>div#basic-info</shop-detail>
+        <shop-dishlist>div.list-desc a.shop-food-item</shop-dishlist>
+    </selectors>
+</websites>
