@@ -8,7 +8,4 @@ class PyHero:
 
     def __str__(self):
         return "ID[%d]NAME[%s]" % (self.hero_id, self.hero_name)
-
-
-hero = PyHero({'hero_id': 333, 'hero_name': 'test_hero'})
-print(hero)
+    
