@@ -8,4 +8,3 @@ class PyHero:
 
     def __str__(self):
         return "ID[%d]NAME[%s]" % (self.hero_id, self.hero_name)
-    
