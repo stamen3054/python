@@ -6,6 +6,7 @@ import os
 
 album_list_url_prefix = 'http://photo.renren.com/photo/<user_id>/albumlist/v7?offset=0'
 album_url_prefix = 'http://photo.renren.com/photo/<user_id>/album-<album_id>/v7'
+photo_url_prefix = 'http://photo.renren.com/photo/<user_id>/album-<album_id>/bypage/ajax/v7?page=<page_number>&pageSize=<page_size>'
 item_list_selector = 'script'
 image_path_prefix = os.path.dirname(__file__) + '/images/'
 headers = {
@@ -25,7 +26,8 @@ source_code = requests.get(album_list_url_prefix.replace('<user_id>', user_id), 
 plain_text = source_code.text
 overview_soup = BeautifulSoup(plain_text, 'html.parser')
 album_list_script = overview_soup.select(item_list_selector)[5]
-album_list_text = str(album_list_script).split('nx.data.photo = ')[1].split(';\nnx.data.hasHiddenAlbum')[0].replace('\'', '"')
+album_list_text = str(album_list_script).split('nx.data.photo = ')[1].split(';\nnx.data.hasHiddenAlbum')[0].replace(
+    '\'', '"')
 album_json = json.loads(album_list_text)
 
 for album in album_json['albumList']['albumList']:
@@ -41,16 +43,29 @@ for album in album_json['albumList']['albumList']:
     album_url = album_url_prefix.replace('<user_id>', user_id).replace('<album_id>', album_id)
     source_code1 = requests.get(album_url, headers=headers)
     if source_code1.status_code == 200:
+        count = 0
         plain_text1 = source_code1.text
         overview_soup1 = BeautifulSoup(plain_text1, 'html.parser')
         photo_list_script = overview_soup1.select(item_list_selector)[5]
-        photo_list_text = str(photo_list_script).split('nx.data.photo = ')[1].split(';\n; define.config(')[0].replace('\'', '"')
+        photo_list_text = str(photo_list_script).split('nx.data.photo = ')[1].split(';\n; define.config(')[0].replace(
+            '\'', '"')
         photo_json = json.loads(photo_list_text)
-        for photo in photo_json['photoList']['photoList']:
-            photo_url = photo['url']
-            photo_id = photo['photoId']
-            urllib.request.urlretrieve(photo_url, image_path + '/' + photo_id + '.jpg')
+        photo_count = int(photo_json['photoList']['photoCount'])
+        page_number = 1
+        page_size = 20
+        while count < photo_count:
+            photo_url = photo_url_prefix.replace('<user_id>', user_id).replace('<album_id>', album_id).replace(
+                '<page_number>', str(page_number)).replace('<page_size>', str(page_size))
+            photo_source_code = requests.get(photo_url, headers=headers)
+            photo_plain_text = photo_source_code.text
+            photo_json = json.loads(photo_plain_text)
+            for photo in photo_json['photoList']:
+                count += 1
+                photo_url = photo['url']
+                photo_id = photo['photoId']
+                print('downloading ', count, '/', photo_count)
+                urllib.request.urlretrieve(photo_url, image_path + '/' + photo_id + '.jpg')
+            page_number += 1
     else:
         print('Failed to retrieve album ', album_id, ', request returns ', source_code1.status_code)
         print('album url = ', album_url)
-
