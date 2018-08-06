@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<websites>
+    <dianping>
+        <selectors>
+            <shop-info>.txt .tit</shop-info>
+            <shop-detail>div#basic-info</shop-detail>
+            <shop-dishlist>div.list-desc a.shop-food-item</shop-dishlist>
+        </selectors>
+    </dianping>
+    <renren>
+
+    </renren>
+    <bilibili>
+        <page-list-prefix>https://api.bilibili.com/x/player/pagelist?aid=AID_PLACEHOLDER&amp;jsonp=jsonp</page-list-prefix>
+        <get-page-url-prefix>http://9bl.bakayun.cn/API/GetVideoUrl.php?cid=CID_PLACEHOLDER&amp;type=json&amp;quality=3</get-page-url-prefix>
+        <video-url-prefix></video-url-prefix>
+    </bilibili>
+</websites>
