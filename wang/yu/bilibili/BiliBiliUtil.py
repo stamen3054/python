@@ -58,6 +58,7 @@ else:
                             file.flush()
                         success_items.append(video_name)
                         print('成功下载: %s\n存放于: %s' % (video_name, videos_location))
+                        s.close()
         except Exception as e:
             failed_items.append(video_name)
             print('无法下载%s, 原因: %s' % (video_name, e))
