@@ -40,25 +40,29 @@ else:
             print("正在向bilibili9发送请求, 请求地址: " + get_page_url)
             video_json = json.loads(requests.get(get_page_url).text)
             video_name = item['part'] + '.mp4'
-            print('视频源地址: %s' % video_json['Result']['Url']['Main'])
-            print('视频存放地址: %s' % videos_location + video_name)
-            response = requests.get(video_json['Result']['Url']['Main'], headers=headers)
-            if response.status_code != 200:
-                raise Exception('请求返回值%s' % response.status_code)
+            if os.path.exists(videos_location + video_name):
+                print('已经存在, 跳过下载，')
             else:
-                with open(videos_location + video_name, 'wb') as file:
-                    for data in response.iter_content(chunk_size=1024):
-                        file.write(data)
-                        file.flush()
-                    success_items.append(video_name)
-                    print('成功下载: %s\n存放于: %s' % (video_name, videos_location))
+                print('视频源地址: %s' % video_json['Result']['Url']['Main'])
+                print('视频存放地址: %s' % videos_location + video_name)
+                requests.adapters.DEFAULT_RETRIES = 5
+                s = requests.session()
+                s.keep_alive = False
+                response = s.get(video_json['Result']['Url']['Main'], headers=headers)
+                if response.status_code != 200:
+                    raise Exception('请求返回值%s' % response.status_code)
+                else:
+                    with open(videos_location + video_name, 'wb') as file:
+                        for data in response.iter_content(chunk_size=1024):
+                            file.write(data)
+                            file.flush()
+                        success_items.append(video_name)
+                        print('成功下载: %s\n存放于: %s' % (video_name, videos_location))
         except Exception as e:
             failed_items.append(video_name)
             print('无法下载%s, 原因: %s' % (video_name, e))
         finally:
             print('=====================================================================')
-            print('休息1分钟')
-            time.sleep(60)
     print('完成, 以下内容下载成功:\n')
     print('\n'.join(item for item in success_items))
     print('以下内容下载失败:\n')
