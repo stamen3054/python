@@ -2,7 +2,6 @@ import requests
 import json
 import os
 from wang.yu.common.PyXmlParser import PyXmlParser
-import time
 
 headers = {
     'origin': 'https://www.bilibili.com',
@@ -12,7 +11,6 @@ headers = {
 }
 
 py_xml_parser = PyXmlParser(os.path.dirname(os.path.dirname(__file__)) + '/common/properties/properties.xml')
-print(os.path.dirname(os.path.dirname(__file__)) + '/common/properties/properties.xml')
 xml = py_xml_parser.do_parse()
 page_list_prefix = xml['websites']['bilibili']['page-list-prefix']
 av_id = input('输入av号:\n')
@@ -63,7 +61,8 @@ else:
             print('无法下载%s, 原因: %s' % (video_name, e))
         finally:
             print('=====================================================================')
-    print('完成, 以下内容下载成功:\n')
+    print('完成, 以下内容下载成功:')
     print('\n'.join(item for item in success_items))
-    print('以下内容下载失败:\n')
+    print('=====================================================================')
+    print('以下内容下载失败:')
     print('\n'.join(item for item in failed_items))
