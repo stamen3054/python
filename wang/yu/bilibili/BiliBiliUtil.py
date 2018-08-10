@@ -25,6 +25,7 @@ else:
     headers['referer'] = headers['referer'] % ('av' + av_id)
     failed_items = []
     success_items = []
+    duplicate_items = []
     print('=====================================================================')
     if not os.path.exists(videos_location):
         os.mkdir(videos_location)
@@ -37,8 +38,11 @@ else:
             get_page_url = page_url_prefix % str(item['cid'])
             print("正在向bilibili9发送请求, 请求地址: " + get_page_url)
             video_json = json.loads(requests.get(get_page_url).text)
-            video_name = item['part'] + '.mp4'
+            video_name = item['part']
+            video_type = video_json['Result']['Url']['Main'].split('/')[7].split('.')[1].split('?')[0]
+            video_name += '.' + video_type
             if os.path.exists(videos_location + video_name):
+                duplicate_items.append(video_name)
                 print('已经存在, 跳过下载，')
             else:
                 print('视频源地址: %s' % video_json['Result']['Url']['Main'])
@@ -63,6 +67,9 @@ else:
             print('=====================================================================')
     print('完成, 以下内容下载成功:')
     print('\n'.join(item for item in success_items))
+    print('=====================================================================')
+    print('以下内容已存在于本地:')
+    print('\n'.join(item for item in duplicate_items))
     print('=====================================================================')
     print('以下内容下载失败:')
     print('\n'.join(item for item in failed_items))
