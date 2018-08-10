@@ -24,7 +24,7 @@ if page_list['code'] != 0:
 else:
     count = 0
     videos_location = os.path.dirname(__file__) + '/videos/%s/' % av_id
-    headers['referer'] = headers['referer'] % av_id
+    headers['referer'] = headers['referer'] % ('av' + av_id)
     failed_items = []
     success_items = []
     print('=====================================================================')
@@ -58,7 +58,6 @@ else:
                             file.flush()
                         success_items.append(video_name)
                         print('成功下载: %s\n存放于: %s' % (video_name, videos_location))
-                        s.close()
         except Exception as e:
             failed_items.append(video_name)
             print('无法下载%s, 原因: %s' % (video_name, e))
