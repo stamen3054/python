@@ -78,4 +78,14 @@ def download_videos():
 
 
 def user_age_graph():
-    pass
+    headers = {
+        'Accept': '*/*',
+        'Accept-Encoding':'gzip, deflate, br',
+        'Accept-Language':'en-US,en;q=0.9,zh-CN;q=0.8,zh-TW;q=0.7,zh;q=0.6',
+        'Connection': 'keep-alive',
+        'Host': 'api.bilibili.com',
+        'Referer': 'https://space.bilibili.com/44105334/',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
+    }
+    response = requests.get('https://api.bilibili.com/x/space/myinfo?jsonp=jsonp&vmid=44105334')
+    print(response.text)
