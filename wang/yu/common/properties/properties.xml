@@ -15,6 +15,6 @@
         <av-info-prefix>http://9bl.bakayun.cn/API/GetVideoInfo.php?aid=%s&amp;p=1&amp;type=json </av-info-prefix>
         <page-list-prefix>https://api.bilibili.com/x/player/pagelist?aid=%s&amp;jsonp=jsonp</page-list-prefix>
         <get-page-url-prefix>http://9bl.bakayun.cn/API/GetVideoUrl.php?cid=%s&amp;type=json&amp;quality=3</get-page-url-prefix>
-        <video-url-prefix></video-url-prefix>
+        <get-user-info-url>https://space.bilibili.com/ajax/member/GetInfo</get-user-info-url>
     </bilibili>
 </websites>
