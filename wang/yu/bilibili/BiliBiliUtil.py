@@ -3,6 +3,7 @@ import os
 import time
 
 import requests
+from matplotlib import pyplot as plt
 
 from wang.yu.common.PyXmlParser import PyXmlParser
 
@@ -81,24 +82,34 @@ class BiliBiliUtil:
             print('\n'.join(item for item in failed_items))
 
     def user_age_graph(self):
+        start_id = int(input('输入起始用户id:\n'))
+        end_id = int(input('输入最后用户id:\n'))
         headers = {
             'referer': 'https://space.bilibili.com/',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                           'Chrome/68.0.3440.106 Safari/537.36'
         }
-        sex_list=[]
-
+        sex_num = [0, 0, 0]
+        sex_tag = ['Male', 'Female', 'Secret']
         get_user_info_url = self.xml['websites']['bilibili']['get-user-info-url']
-        max_num = 20000000
-        for user_id in range(1, max_num):
+        for user_id in range(start_id, end_id + 1):
             response = requests.post(get_user_info_url, data={'mid': user_id}, headers=headers)
             user_json = json.loads(response.text)
             # 每100个用户休息10秒，以防被禁ip
             if user_id % 100 == 0:
                 time.sleep(10)
-            if user_json['status']=='False':
+            if user_json['status'] == 'False':
                 print('无效的用户:%s' % user_id)
             else:
                 print('成功获取用户id:%s' % user_id)
+            sex = user_json['data']['sex']
+            if sex == '男':
+                sex_num[0] += 1
+            elif sex == '女':
+                sex_num[1] += 1
+            else:
+                sex_num[2] += 1
 
-            print(user_json)
+        print(sex_num)
+        plt.bar(range(len(sex_num)), sex_num, tick_label=sex_tag)
+        plt.show()
