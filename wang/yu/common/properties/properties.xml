@@ -22,5 +22,6 @@
         <fetch-job-list-url>https://www.zhipin.com/c%s/h_%s/?page=%s&amp;ka=page-%s</fetch-job-list-url>
         <city-code-tianjin>101030100</city-code-tianjin>
         <job-detail-url-prefix>https://www.zhipin.com%s</job-detail-url-prefix>
+        <company-url-prefix>https://www.zhipin.com%s</company-url-prefix>
     </boss>
 </websites>

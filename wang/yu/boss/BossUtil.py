@@ -42,7 +42,9 @@ class BossUtil:
                 job_list.append(job_info)
             for company_info_div in soup.select('div.info-company'):
                 company_name = company_info_div.select_one('h3 a').text
+                company_url = self.xml['company-url-prefix'] % company_info_div.select_one('h3 a')['href']
                 job_list[index].append(company_name)
+                job_list[index].append(company_url)
                 index += 1
             # 最后一页的下一页按钮是disable的
             next_btn = soup.findAll('a', {'ka': 'page-next'})
@@ -50,8 +52,4 @@ class BossUtil:
                 if attr == 'disabled':
                     has_next = False
                     print('完成全部爬取')
-        print('\n'.join(','.join(job) for job in job_list))
-
-
-boss = BossUtil()
-boss.fetch_job_list_by_city()
+        print('\n'.join(', '.join(job) for job in job_list))
