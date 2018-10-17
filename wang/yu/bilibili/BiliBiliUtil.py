@@ -98,17 +98,17 @@ class BiliBiliUtil:
             # 每100个用户休息10秒，以防被禁ip
             if user_id % 100 == 0:
                 time.sleep(10)
-            if user_json['status'] == 'False':
-                print('无效的用户:%s' % user_id)
+            if not user_json['status']:
+                print('无效的用户id:%s' % user_id)
             else:
                 print('成功获取用户id:%s' % user_id)
-            sex = user_json['data']['sex']
-            if sex == '男':
-                sex_num[0] += 1
-            elif sex == '女':
-                sex_num[1] += 1
-            else:
-                sex_num[2] += 1
+                sex = user_json['data']['sex']
+                if sex == '男':
+                    sex_num[0] += 1
+                elif sex == '女':
+                    sex_num[1] += 1
+                else:
+                    sex_num[2] += 1
 
         print(sex_num)
         plt.bar(range(len(sex_num)), sex_num, tick_label=sex_tag)
