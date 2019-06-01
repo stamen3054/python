@@ -24,4 +24,11 @@
         <job-detail-url-prefix>https://www.zhipin.com%s</job-detail-url-prefix>
         <company-url-prefix>https://www.zhipin.com%s</company-url-prefix>
     </boss>
+    <test51>
+        <yazhou>
+            <zhongkao2019>
+                <url>https://www.51test.net/show/9111129.html</url>
+            </zhongkao2019>
+        </yazhou>
+    </test51>
 </websites>
