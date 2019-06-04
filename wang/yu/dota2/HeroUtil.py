@@ -13,7 +13,7 @@ class HeroUtil:
         url = 'http://db.178.com/dota2/hero-list/'
         hero_temp_url = 'http://db.178.com/dota2/'
         utf_encoding = 'UTF-8'
-        path = os.path.dirname(os.path.dirname(__file__)) + '/reports/'
+        path = os.path.dirname(os.path.dirname(__file__)) + '/reports/dota2/'
         workbook = xlsxwriter.Workbook(path + 'dota2-heroes-reports.xlsx')
         self.cell_format = workbook.add_format()
         worksheet = workbook.add_worksheet('hero info')
@@ -28,7 +28,7 @@ class HeroUtil:
                 hero_detail_page = requests.get(hero_url)
                 hero_detail_page.encoding = utf_encoding
                 hero_detail_text = hero_detail_page.text
-                hero_soup = BeautifulSoup(hero_detail_text)
+                hero_soup = BeautifulSoup(hero_detail_text, 'html.parser')
                 name = anchor.get('title')
                 roleshow = anchor.get('roleshow')
                 for background_div in hero_soup.findAll('div', {'class': 'box_b_in p5 text_2'}):
@@ -40,6 +40,9 @@ class HeroUtil:
                     print('generating hero skill row: ', spell_name)
                     self.create_excel(worksheet, ['', '', spell_name, self.format_long_text(spell_desc), ''])
         finally:
+            if not os.path.exists(path):
+                print('未找到存放位置，正在创建...')
+                os.mkdir(path)
             workbook.close()
 
     def create_excel(self, worksheet, text):

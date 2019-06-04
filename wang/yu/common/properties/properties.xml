@@ -8,9 +8,6 @@
             <shop-dishlist>div.list-desc a.shop-food-item</shop-dishlist>
         </selectors>
     </dianping>
-    <renren>
-
-    </renren>
     <bilibili>
         <av-info-prefix>http://9bl.bakayun.cn/API/GetVideoInfo.php?aid=%s&amp;p=1&amp;type=json</av-info-prefix>
         <page-list-prefix>https://api.bilibili.com/x/player/pagelist?aid=%s&amp;jsonp=jsonp</page-list-prefix>

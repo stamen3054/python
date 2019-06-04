@@ -6,3 +6,5 @@ __pycache__/
 *.flv
 *.png
 *.docx
+venv/*
+*.xlsx

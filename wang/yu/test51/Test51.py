@@ -13,7 +13,8 @@ class Test51:
         py_xml_parser = PyXmlParser(os.path.dirname(os.path.dirname(__file__)) + '/common/properties/properties.xml')
         self.xml = py_xml_parser.do_parse()
         self.images = []
-        self.images_location = os.path.dirname(__file__) + '/images'
+        self.reports_location = os.path.dirname(os.path.dirname(__file__)) + '/reports/test_51'
+        self.images_location = self.reports_location + '/images'
 
     def create_word_doc(self):
         document = Document()
@@ -23,7 +24,7 @@ class Test51:
         for count in range(1, max_count):
             document.add_picture('%s/%s.png' % (self.images_location, count), width=Inches(5))
 
-        document.save(os.path.dirname(__file__) + '/demo.docx')
+        document.save(self.reports_location + '/demo.docx')
 
     def crawl_images(self):
         test51_yazhou_zhongkao2019_url = self.xml['websites']['test51']['yazhou']['zhongkao2019']['url']
@@ -40,17 +41,16 @@ class Test51:
         self.create_word_doc()
 
     def download_images(self, img_src, img_name):
+        if not os.path.exists(self.reports_location):
+            os.mkdir(self.reports_location)
         if not os.path.exists(self.images_location):
             os.mkdir(self.images_location)
             print('正在创建本地文件夹...')
         if not os.path.exists('%s/%s' % (self.images_location, img_name)):
+            print('正在下载图片%s到%s目录', (img_name, self.images_location))
             try:
                 urllib.request.urlretrieve(img_src, '%s/%s' % (self.images_location, img_name))
             except ValueError:
                 urllib.request.urlretrieve('%s%s' % ('https:', img_src), '%s/%s' % (self.images_location, img_name))
         else:
             print('已经存在%s' % img_name)
-
-
-test = Test51()
-test.crawl_images()

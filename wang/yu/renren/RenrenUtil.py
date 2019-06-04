@@ -15,7 +15,7 @@ class RenrenUtil:
         photo_url_prefix = 'http://photo.renren.com/photo/<user_id>/album-<album_id>' \
                            '/bypage/ajax/v7?page=<page_number>&pageSize=<page_size>'
         item_list_selector = 'script'
-        image_path_prefix = os.path.dirname(__file__) + '/images/'
+        image_path_prefix = os.path.dirname(os.path.dirname(__file__)) + '/reports/renren_images/'
         headers = {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
             'Accept-Encoding': 'gzip, deflate',
