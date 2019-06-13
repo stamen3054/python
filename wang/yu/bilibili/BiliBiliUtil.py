@@ -28,12 +28,17 @@ class BiliBiliUtil:
         if page_list['code'] != 0:
             raise NameError('错误的番号: %s' % av_id)
         else:
-            videos_location = os.path.dirname(__file__) + '/videos/%s/' % av_id
+            videos_dir_location = os.path.dirname(os.path.dirname(__file__)) + '/reports/bilibili'
             headers['referer'] = headers['referer'] % ('av' + av_id)
             failed_items = []
             success_items = []
             duplicate_items = []
             print('=====================================================================')
+            if not os.path.exists(videos_dir_location):
+                os.mkdir(videos_dir_location)
+                print('正在创建根目录: ' + videos_dir_location)
+                print('=====================================================================')
+            videos_location = videos_dir_location + '/%s/' % av_id
             if not os.path.exists(videos_location):
                 os.mkdir(videos_location)
                 print('正在创建本地文件夹: ' + videos_location)
